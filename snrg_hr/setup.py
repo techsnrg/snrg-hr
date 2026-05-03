@@ -14,12 +14,8 @@ def ensure_hr_offer_customizations():
 	_ensure_job_applicant_fields()
 	_ensure_job_offer_fields()
 	_ensure_job_applicant_layout()
-	_ensure_offer_terms()
-	_ensure_job_offer_term_templates()
 	frappe.clear_cache(doctype="Job Applicant")
 	frappe.clear_cache(doctype="Job Offer")
-	frappe.clear_cache(doctype="Offer Term")
-	frappe.clear_cache(doctype="Job Offer Term Template")
 	frappe.db.commit()
 
 
@@ -87,58 +83,6 @@ def _ensure_job_applicant_layout():
 	_ensure_property_setter("Job Applicant", "section_break_6", "collapsed", "1", "Check")
 	_ensure_property_setter("Job Applicant", "section_break_16", "collapsible", "1", "Check")
 	_ensure_property_setter("Job Applicant", "section_break_16", "collapsed", "1", "Check")
-
-
-def _ensure_offer_terms():
-	for offer_term in ("Territory", "Key Responsibilities", "Headquarter"):
-		if frappe.db.exists("Offer Term", offer_term):
-			continue
-		frappe.get_doc(
-			{
-				"doctype": "Offer Term",
-				"offer_term": offer_term,
-			}
-		).insert(ignore_permissions=True)
-
-
-def _ensure_job_offer_term_templates():
-	template_name = "Sales Executive - LOI Standard"
-	if frappe.db.exists("Job Offer Term Template", template_name):
-		return
-
-	frappe.get_doc(
-		{
-			"doctype": "Job Offer Term Template",
-			"title": template_name,
-			"offer_terms": [
-				{
-					"offer_term": "Territory",
-					"value": (
-						"State of Uttar Pradesh including Fatehpur District and Bundelkhand "
-						"regions like Banda, Chitrakoot, Jhansi, Jalaun, Orai, Lalitpur and "
-						"surrounding areas. The exact territory boundaries may be fine-tuned "
-						"by the Company based on market potential and business requirements."
-					),
-				},
-				{
-					"offer_term": "Key Responsibilities",
-					"value": (
-						"Driving primary sales for the assigned geography\n"
-						"Appointing and activating distributors and dealers\n"
-						"Ensuring secondary sales movement and counter expansion\n"
-						"Market development, beat planning, and field execution\n"
-						"Achieving monthly and quarterly sales targets\n"
-						"Supporting collections and credit discipline\n"
-						"Ensuring timely reporting and CRM compliance"
-					),
-				},
-				{
-					"offer_term": "Headquarter",
-					"value": "Fatehpur",
-				},
-			],
-		}
-	).insert(ignore_permissions=True)
 
 
 def _ensure_property_setter(doc_type, field_name, property_name, value, property_type):
