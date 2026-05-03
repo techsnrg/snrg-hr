@@ -1,0 +1,13 @@
+include README.md
+include requirements.txt
+recursive-include snrg_hr *.css
+recursive-include snrg_hr *.csv
+recursive-include snrg_hr *.html
+recursive-include snrg_hr *.ico
+recursive-include snrg_hr *.js
+recursive-include snrg_hr *.json
+recursive-include snrg_hr *.md
+recursive-include snrg_hr *.png
+recursive-include snrg_hr *.py
+recursive-include snrg_hr *.svg
+recursive-include snrg_hr *.txt
