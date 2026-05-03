@@ -42,6 +42,7 @@ def _ensure_job_applicant_fields():
 			]
 		},
 		update=True,
+		ignore_validate=True,
 	)
 
 
@@ -75,6 +76,7 @@ def _ensure_job_offer_fields():
 			]
 		},
 		update=True,
+		ignore_validate=True,
 	)
 
 
