@@ -19,6 +19,8 @@ doc_events = {
 		"autoname": "snrg_hr.api.job_offer.autoname",
 		"before_insert": "snrg_hr.api.job_offer.before_insert",
 		"validate": "snrg_hr.api.job_offer.validate",
+		"after_insert": "snrg_hr.api.job_offer.sync_applicant_attachments",
+		"on_update": "snrg_hr.api.job_offer.sync_applicant_attachments",
 	},
 }
 

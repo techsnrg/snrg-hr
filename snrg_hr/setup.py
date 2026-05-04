@@ -58,6 +58,12 @@ def _ensure_job_applicant_fields():
 					"fieldtype": "Column Break",
 					"insert_after": "notes",
 				},
+				{
+					"fieldname": "custom_sales_projection_attachment",
+					"fieldtype": "Attach",
+					"label": "Sales Projection Attachment",
+					"insert_after": "resume_attachment",
+				},
 			]
 		},
 		update=True,
@@ -184,7 +190,8 @@ def _ensure_job_applicant_layout():
 	_ensure_property_setter("Job Applicant", "notes", "insert_after", "section_break_6", "Data")
 	_ensure_property_setter("Job Applicant", "cover_letter", "insert_after", "notes", "Data")
 	_ensure_property_setter("Job Applicant", "resume_attachment", "insert_after", "cover_letter", "Data")
-	_ensure_property_setter("Job Applicant", "resume_link", "insert_after", "resume_attachment", "Data")
+	_ensure_property_setter("Job Applicant", "custom_sales_projection_attachment", "insert_after", "resume_attachment", "Data")
+	_ensure_property_setter("Job Applicant", "resume_link", "insert_after", "custom_sales_projection_attachment", "Data")
 
 
 def _ensure_job_offer_defaults():
