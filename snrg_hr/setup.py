@@ -189,7 +189,8 @@ def _ensure_job_applicant_layout():
 
 def _ensure_job_offer_defaults():
 	_ensure_property_setter("Job Offer", "offer_date", "default", "Today", "Data")
-	_ensure_property_setter("Job Offer", "offer_date", "insert_after", "job_applicant", "Data")
+	_ensure_property_setter("Job Offer", "offer_date", "insert_after", "status", "Data")
+	_ensure_property_setter("Job Offer", "job_applicant", "insert_after", "offer_date", "Data")
 	_ensure_property_setter("Job Offer", "letter_head", "default", "SNRG Blue Letter Head", "Data")
 	_ensure_property_setter("Job Offer", "applicant_email", "hidden", "1", "Check")
 	_ensure_property_setter("Job Offer", "custom_applicant_phone_number", "hidden", "1", "Check")
@@ -197,12 +198,11 @@ def _ensure_job_offer_defaults():
 	_ensure_property_setter("Job Offer", "custom_company_code", "hidden", "1", "Check")
 	_ensure_property_setter("Job Offer", "custom_fy_short", "hidden", "1", "Check")
 	_ensure_property_setter("Job Offer", "custom_naming_series", "hidden", "1", "Check")
-	_ensure_property_setter("Job Offer", "company", "insert_after", "offer_date", "Data")
+	_ensure_property_setter("Job Offer", "company", "insert_after", "job_applicant", "Data")
 	_ensure_property_setter("Job Offer", "designation", "insert_after", "company", "Data")
 	_ensure_property_setter("Job Offer", "custom_reporting_manager_employee", "insert_after", "custom_department", "Data")
 	_ensure_property_setter("Job Offer", "custom_reporting_manager_name", "insert_after", "custom_reporting_manager_employee", "Data")
 	_ensure_property_setter("Job Offer", "custom_reporting_manager_designation", "hidden", "1", "Check")
-	_ensure_property_setter("Job Offer", "custom_reporting_manager_designation", "insert_after", "custom_reporting_manager_name", "Data")
 
 
 def _ensure_offer_term_seed_data():
