@@ -10,5 +10,16 @@ after_migrate = "snrg_hr.setup.after_migrate"
 
 fixtures = []
 
+doctype_js = {
+	"Job Offer": "public/js/job_offer.js",
+}
+
+doc_events = {
+	"Job Offer": {
+		"before_insert": "snrg_hr.api.job_offer.before_insert",
+		"validate": "snrg_hr.api.job_offer.validate",
+	},
+}
+
 # app_include_css = "/assets/snrg_hr/css/snrg_hr.css"
 # app_include_js = "/assets/snrg_hr/js/snrg_hr.js"
