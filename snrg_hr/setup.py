@@ -43,11 +43,6 @@ def _ensure_job_applicant_fields():
 					"insert_after": address_anchor,
 				},
 				{
-					"fieldname": "custom_details_column_3",
-					"fieldtype": "Column Break",
-					"insert_after": "status",
-				},
-				{
 					"fieldname": "custom_profile_resume_section",
 					"fieldtype": "Section Break",
 					"label": "Profile and Resume",
@@ -160,9 +155,9 @@ def _ensure_job_offer_fields():
 
 
 def _ensure_job_applicant_layout():
+	_delete_custom_field_if_exists("Job Applicant", "custom_details_column_3")
 	_ensure_property_setter("Job Applicant", "custom_full_address", "insert_after", "status", "Data")
 	_ensure_property_setter("Job Applicant", "country", "insert_after", "custom_full_address", "Data")
-	_ensure_property_setter("Job Applicant", "custom_details_column_3", "hidden", "1", "Check")
 	_ensure_property_setter("Job Applicant", "column_break_18", "hidden", "0", "Check")
 	_ensure_property_setter("Job Applicant", "column_break_18", "insert_after", "status", "Data")
 	_ensure_property_setter("Job Applicant", "currency", "insert_after", "column_break_18", "Data")
@@ -577,3 +572,10 @@ def _insert_child_row(doctype, name, parent, parentfield, parenttype, idx, field
 		f"INSERT INTO `tab{doctype}` ({column_sql}) VALUES ({placeholders})",
 		values,
 	)
+
+
+def _delete_custom_field_if_exists(doctype, fieldname):
+	custom_field_name = f"{doctype}-{fieldname}"
+	if not frappe.db.exists("Custom Field", custom_field_name):
+		return
+	frappe.db.delete("Custom Field", {"name": custom_field_name})
