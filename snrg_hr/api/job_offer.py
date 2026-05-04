@@ -13,10 +13,13 @@ def validate(doc, method=None):
 	apply_naming_metadata(doc)
 
 
+def autoname(doc, method=None):
+	apply_naming_metadata(doc)
+	doc.name = make_autoname(doc.custom_naming_series)
+
+
 def before_insert(doc, method=None):
 	apply_naming_metadata(doc)
-	if not doc.name or str(doc.name).startswith("new-job-offer"):
-		doc.name = make_autoname(doc.custom_naming_series)
 
 
 def apply_naming_metadata(doc):

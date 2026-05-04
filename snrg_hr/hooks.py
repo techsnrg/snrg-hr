@@ -16,6 +16,7 @@ doctype_js = {
 
 doc_events = {
 	"Job Offer": {
+		"autoname": "snrg_hr.api.job_offer.autoname",
 		"before_insert": "snrg_hr.api.job_offer.before_insert",
 		"validate": "snrg_hr.api.job_offer.validate",
 	},
