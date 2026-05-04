@@ -92,11 +92,34 @@ def _ensure_job_offer_fields():
 					"insert_after": department_anchor,
 				},
 				{
+					"fieldname": "custom_reporting_manager_employee",
+					"fieldtype": "Link",
+					"label": "Reporting Manager Employee",
+					"options": "Employee",
+					"insert_after": "custom_department",
+				},
+				{
+					"fieldname": "custom_reporting_manager_name",
+					"fieldtype": "Data",
+					"label": "Reporting Manager Name",
+					"fetch_from": "custom_reporting_manager_employee.employee_name",
+					"read_only": 1,
+					"insert_after": "custom_reporting_manager_employee",
+				},
+				{
+					"fieldname": "custom_reporting_manager_designation",
+					"fieldtype": "Data",
+					"label": "Reporting Manager Designation",
+					"fetch_from": "custom_reporting_manager_employee.designation",
+					"read_only": 1,
+					"insert_after": "custom_reporting_manager_name",
+				},
+				{
 					"fieldname": "custom_company_code",
 					"fieldtype": "Data",
 					"label": "Company Code",
 					"read_only": 1,
-					"insert_after": "custom_department",
+					"insert_after": "custom_reporting_manager_designation",
 				},
 				{
 					"fieldname": "custom_fy_short",
@@ -286,9 +309,14 @@ def _ensure_job_offer_print_format():
     {{ doc.custom_department or '' }} function through disciplined execution, reporting,
     and role ownership aligned with company expectations.
   </p>
-  {% if ns.headquarter %}
-  <p><strong>Department / Function:</strong> {{ doc.custom_department or '' }}</p>
+  {% if doc.custom_department %}<p><strong>Department / Function:</strong> {{ doc.custom_department }}</p>{% endif %}
+  {% if doc.custom_reporting_manager_name %}
+  <p>
+    <strong>Reporting To:</strong> {{ doc.custom_reporting_manager_name }}
+    {% if doc.custom_reporting_manager_designation %}({{ doc.custom_reporting_manager_designation }}){% endif %}
+  </p>
   {% endif %}
+  {% if ns.headquarter %}<p><strong>Work Location:</strong> {{ ns.headquarter }}</p>{% endif %}
   {% endif %}
 
   <h2>2. Key Responsibilities</h2>
