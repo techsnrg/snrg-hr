@@ -137,6 +137,7 @@ def _ensure_job_offer_fields():
 
 
 def _ensure_job_applicant_layout():
+	_ensure_property_setter("Job Applicant", "custom_full_address", "insert_after", "status", "Data")
 	_ensure_property_setter("Job Applicant", "country", "insert_after", "custom_full_address", "Data")
 	_ensure_property_setter("Job Applicant", "custom_details_column_3", "hidden", "1", "Check")
 	_ensure_property_setter("Job Applicant", "column_break_18", "hidden", "0", "Check")
