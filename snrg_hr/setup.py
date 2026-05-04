@@ -76,10 +76,21 @@ def _ensure_job_offer_fields():
 		job_offer_meta,
 		["applicant_email_address", "applicant_email", "applicant_name", "job_applicant"],
 	) or "job_applicant"
+	department_anchor = _pick_last_existing_field(
+		job_offer_meta,
+		["designation", "offer_date", "company"],
+	) or "designation"
 
 	create_custom_fields(
 		{
 			"Job Offer": [
+				{
+					"fieldname": "custom_department",
+					"fieldtype": "Link",
+					"label": "Department",
+					"options": "Department",
+					"insert_after": department_anchor,
+				},
 				{
 					"fieldname": "custom_applicant_phone_number",
 					"fieldtype": "Data",
@@ -87,7 +98,7 @@ def _ensure_job_offer_fields():
 					"options": "Phone",
 					"fetch_from": "job_applicant.phone_number",
 					"read_only": 1,
-					"insert_after": primary_anchor,
+					"insert_after": "custom_department",
 				},
 				{
 					"fieldname": "custom_applicant_full_address",
@@ -195,6 +206,8 @@ def _ensure_job_offer_print_format():
   {% if row.offer_term == "Headquarter" %}{% set ns.headquarter = row.value %}{% endif %}
 {% endfor %}
 {% set letter_head_content = letter_head.content if letter_head is mapping else letter_head %}
+{% set department_name = (doc.custom_department or '')|lower %}
+{% set is_sales_department = 'sales' in department_name %}
 
 <style>
   .loi-wrap { font-family: Arial, sans-serif; font-size: 12px; line-height: 1.6; color: #222; }
@@ -217,7 +230,7 @@ def _ensure_job_offer_print_format():
   <h1>Letter of Intent</h1>
 
   <div class="loi-meta">
-    <p>{{ frappe.utils.formatdate(doc.offer_date) if doc.offer_date else '' }}</p>
+    <p>{{ frappe.utils.formatdate(doc.offer_date, "d MMMM yyyy") if doc.offer_date else '' }}</p>
     <p><strong>{{ doc.applicant_name or '' }}</strong></p>
     <p>{{ (doc.custom_applicant_full_address or '').replace('\\n', '<br>') }}</p>
     <p>M: {{ doc.custom_applicant_phone_number or '' }}</p>
@@ -237,12 +250,24 @@ def _ensure_job_offer_print_format():
     and initial performance expectations before issuance of the formal Appointment Letter.
   </p>
 
+  {% if is_sales_department %}
   <h2>1. Role & Territory Allocation</h2>
   <p>
     As a {{ doc.designation or '' }}, your core mandate will be to build, grow, and stabilize the
     assigned territory.
   </p>
   <p><strong>Territory Definition:</strong><br>{{ ns.territory or '' }}</p>
+  {% else %}
+  <h2>1. Role & Functional Allocation</h2>
+  <p>
+    As a {{ doc.designation or '' }}, your core mandate will be to support the
+    {{ doc.custom_department or '' }} function through disciplined execution, reporting,
+    and role ownership aligned with company expectations.
+  </p>
+  {% if ns.headquarter %}
+  <p><strong>Department / Function:</strong> {{ doc.custom_department or '' }}</p>
+  {% endif %}
+  {% endif %}
 
   <h2>2. Key Responsibilities</h2>
   <ul>
@@ -265,6 +290,7 @@ def _ensure_job_offer_print_format():
     exclusively by the terms stated in the Appointment Letter.
   </p>
 
+  {% if is_sales_department %}
   <h2>4. Sales Projection Reference</h2>
   <p>
     You have submitted a Sales Projection & Market Development Plan, which will serve as the
@@ -280,6 +306,13 @@ def _ensure_job_offer_print_format():
     Your continuation beyond probation will be evaluated against actual performance versus your
     submitted projections, along with execution discipline and market feedback.
   </p>
+  {% else %}
+  <h2>4. Performance Reference</h2>
+  <p>
+    Your continuation beyond probation will be evaluated against execution quality, reporting
+    discipline, role ownership, learning agility, and feedback from your reporting function.
+  </p>
+  {% endif %}
 
   <h2>5. Probation</h2>
   <p>
@@ -289,17 +322,26 @@ def _ensure_job_offer_print_format():
   </p>
 
   <h2>6. Joining, Posting & Work Discipline</h2>
-  <p><strong>Expected Date of Joining:</strong> {{ doc.date_of_joining or '' }}</p>
+  <p><strong>Expected Date of Joining:</strong> {{ doc.date_of_joining or doc.offer_date or '' }}</p>
   <p><strong>Headquarter:</strong> {{ ns.headquarter or '' }}</p>
+  {% if doc.custom_department %}
+  <p><strong>Department:</strong> {{ doc.custom_department }}</p>
+  {% endif %}
   <p>
+    {% if is_sales_department %}
     Your working hours will be field-driven and market-oriented. You are expected to maintain
     full-day field productivity and a market working time of 9 hours and remain available between
     10:00 AM and 7:00 PM for internal coordination, reporting, and official communication.
+    {% else %}
+    Your working hours will be role-driven and operationally aligned. You are expected to maintain
+    disciplined attendance, timely reporting, and availability during designated working hours for
+    internal coordination, execution, and official communication.
+    {% endif %}
   </p>
   <p>
     Your first day will involve an onboarding session during which you will receive further
     information regarding your role, responsibilities, product portfolio, reporting processes,
-    and territory execution framework.
+    {% if is_sales_department %}and territory execution framework.{% else %}and department execution framework.{% endif %}
   </p>
 
   <h2>7. Non-Binding Nature</h2>
