@@ -182,7 +182,11 @@ def _ensure_job_applicant_layout():
 
 def _ensure_job_offer_defaults():
 	_ensure_property_setter("Job Offer", "offer_date", "default", "Today", "Data")
+	_ensure_property_setter("Job Offer", "offer_date", "insert_after", "applicant_name", "Data")
 	_ensure_property_setter("Job Offer", "letter_head", "default", "SNRG Blue Letter Head", "Data")
+	_ensure_property_setter("Job Offer", "applicant_email", "hidden", "1", "Check")
+	_ensure_property_setter("Job Offer", "custom_applicant_phone_number", "hidden", "1", "Check")
+	_ensure_property_setter("Job Offer", "custom_applicant_full_address", "hidden", "1", "Check")
 	_ensure_property_setter("Job Offer", "custom_company_code", "hidden", "1", "Check")
 	_ensure_property_setter("Job Offer", "custom_fy_short", "hidden", "1", "Check")
 	_ensure_property_setter("Job Offer", "custom_naming_series", "hidden", "1", "Check")
