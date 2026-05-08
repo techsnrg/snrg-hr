@@ -177,8 +177,6 @@ def _ensure_job_applicant_layout():
 	_ensure_property_setter("Job Applicant", "upper_range", "insert_after", "lower_range", "Data")
 	_ensure_property_setter("Job Applicant", "source_and_rating_section", "hidden", "0", "Check")
 	_ensure_property_setter("Job Applicant", "source_and_rating_section", "label", "Source, Rating and CV", "Data")
-	_ensure_property_setter("Job Applicant", "section_break_6", "hidden", "1", "Check")
-	_ensure_property_setter("Job Applicant", "section_break_16", "hidden", "1", "Check")
 	_ensure_property_setter("Job Applicant", "custom_profile_resume_section", "hidden", "1", "Check")
 	_ensure_property_setter("Job Applicant", "custom_profile_resume_column_2", "hidden", "1", "Check")
 	_ensure_property_setter("Job Applicant", "custom_profile_resume_column_3", "hidden", "1", "Check")
@@ -192,6 +190,10 @@ def _ensure_job_applicant_layout():
 	_ensure_property_setter("Job Applicant", "resume_attachment", "insert_after", "cover_letter", "Data")
 	_ensure_property_setter("Job Applicant", "custom_sales_projection_attachment", "insert_after", "resume_attachment", "Data")
 	_ensure_property_setter("Job Applicant", "resume_link", "insert_after", "custom_sales_projection_attachment", "Data")
+	_ensure_property_setter("Job Applicant", "section_break_6", "hidden", "1", "Check")
+	_ensure_property_setter("Job Applicant", "section_break_6", "insert_after", "resume_link", "Data")
+	_ensure_property_setter("Job Applicant", "section_break_16", "hidden", "1", "Check")
+	_ensure_property_setter("Job Applicant", "section_break_16", "insert_after", "section_break_6", "Data")
 
 
 def _ensure_job_offer_defaults():
